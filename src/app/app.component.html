@@ -1,0 +1,171 @@
+<nav class="navbar navbar-expand-lg navbar-white myNav">
+  <div class="container">
+    <a class="navbar-brand" href="index.html">
+      <img src="eventLogo.png" alt="" class="d-inline-block align-text-top" />
+    </a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+        <li class="nav-item" *ngIf="loggedUserData?.role == 'Event Planner'">
+          <a class="nav-link active" aria-current="page" [routerLink]="['/new-Event']">Create Event</a>
+        </li>
+      </ul>
+      <form class="d-flex" *ngIf="!isUserLoggedIn">
+        <button
+          class="btn btn-outline-primary round-button mx-2"
+          type="button"
+          (click)="openLogin()"
+        >
+          Login
+        </button>
+        <button
+          class="btn btn-success round-button"
+          type="button"
+          (click)="openRegister()"
+        >
+          Register
+        </button>
+      </form>
+
+      <form class="d-flex" *ngIf="isUserLoggedIn">
+        <div>{{ loggedUserData?.contactNo }}</div>
+
+        <button
+          class="btn btn-outline-primary round-button mx-2"
+          type="button"
+          (click)="onLogout()"
+        >
+          Log Out
+        </button>
+      </form>
+    </div>
+  </div>
+</nav>
+
+<router-outlet></router-outlet>
+
+<!-- The Modal -->
+<div class="modal" id="myModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          (click)="closeModel()"
+        ></button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <div class="container">
+          <form id="loginForm" class="form" *ngIf="isLoginView">
+            <h2>Login</h2>
+            <div class="form-group">
+              <label for="contact">Contact No</label>
+              <input
+                type="text"
+                id="contact"
+                name="contact"
+                [(ngModel)]="loginObj.ContactNo"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="loginPassword">Password</label>
+              <input
+                type="password"
+                id="loginPassword"
+                name="loginPassword"
+                [(ngModel)]="loginObj.Password"
+                required
+              />
+            </div>
+            <button type="submit" (click)="onLogin()">Login</button>
+            <p>
+              Dont Have an account ?
+              <a href="#" class="pointer" (click)="isLoginView = false"
+                >Sign Up Here</a
+              >
+            </p>
+          </form>
+
+          <form id="signupForm" class="form" *ngIf="!isLoginView">
+            <h2>Registration</h2>
+            <div class="form-group">
+              <label for="signupName">Name</label>
+              <input
+                type="text"
+                id="signupName"
+                name="signupName"
+                [(ngModel)]="registerObj.Name"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="signupEmail">Email</label>
+              <input
+                type="email"
+                id="signupEmail"
+                name="signupEmail"
+                [(ngModel)]="registerObj.Email"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="signupPassword">Password</label>
+              <input
+                type="password"
+                id="signupPassword"
+                name="signupPassword"
+                [(ngModel)]="registerObj.Password"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="contactno">Contact No.</label>
+              <input
+                type="text"
+                id="contactno"
+                name="contactno"
+                [(ngModel)]="registerObj.ContactNo"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="role">What are you ?</label>
+              <select
+                class="form-select"
+                aria-label="Default select example"
+                name="role"
+                [(ngModel)]="registerObj.Role"
+              >
+                <option selected>Select Your Role</option>
+                <option value="Event Planner">Event Planner</option>
+                <option value="Customer">Customer</option>
+              </select>
+            </div>
+            <button type="submit" (click)="onRegister()">Register</button>
+            <p>
+              Login if already registered ?
+              <a class="pointer" (click)="isLoginView = true">Login Here</a>
+            </p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
